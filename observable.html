@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>pruity</title>
+    <script src="https://unpkg.com/@babel/polyfill/browser.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js"></script>
+    <script type="text/babel">
+        class DataSource{
+          constructor(){
+              let i=0;
+              this._id=setInterval(()=>this.emit(i++),200);
+          }
+          emit(n){
+              const limit=10;
+              if(this.ondata){
+                  this.ondata(n);
+              }
+              if(n===limit){
+                  if(this.oncomplete){
+                      this.oncomplete();
+                      this.destroy();
+                  }
+              }
+          }
+          destroy(){
+                  clearInterval(this._id);
+              }
+      }
+      function myObservable(observer){
+          let datasource=new DataSource();
+          datasource.ondata=(e)=>observer.next(e);
+          datasource.onerror=(err)=>observer.error(err);
+          datasource.oncomplete=()=>observer.complete();
+          console.log(datasource);
+      }
+      myObservable({
+          next(x){console.log(x);},
+          error(err){console.log(err);},
+          complete(){console.log('done');}
+          
+      });
+    </script>
+</head>
+
+<body>
+    <input type="button" value="测试1" class="btn1">
+    <input type="button" value="测试2" class="btn2">
+</body>
+
+</html>

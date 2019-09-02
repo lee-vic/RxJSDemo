@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>pruity</title>
+    <script src="https://unpkg.com/@babel/polyfill/browser.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js"></script>
+    <script type="text/babel">
+        const { fromEvent }= rxjs;
+        const { scan,throttleTime,map} = rxjs.operators;
+    //    var count=0;
+    //    var rate=1000;
+    //    var lastClick=Date.now()-rate;
+    //    var button=document.querySelector('.btn1');
+    //    button.addEventListener('click',(event)=>{
+    //        if(Date.now()-lastClick>=rate){
+    //         count+=event.clientX;
+    //         console.log(count);
+    //         lastClick=Date.now();
+    //        }
+    //     });
+
+       var button1=document.querySelector('.btn2');
+        fromEvent(button1,'click')
+        .pipe(
+            throttleTime(1000),
+            map(event=>event.clientX),
+            scan((count,clientX)=>count+clientX,0)
+        )
+        .subscribe(count=>console.log(count))
+    </script>
+</head>
+
+<body>
+    <input type="button" value="测试1" class="btn1">
+    <input type="button" value="测试2" class="btn2">
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>测试页面</title>
+    <script src="https://unpkg.com/@babel/polyfill/browser.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" >
+        var getJSON=function(url){
+            var promise=new Promise(function(resolve,reject){
+                var client=new XMLHttpRequest();
+                client.open("GET",url);
+                client.onreadystatechange=handler;
+                client.responseType="json";
+                client.setRequestHeader("Accept","application/json");
+                client.send();
+
+                function handler() {
+                    if(this.readyState!==4){
+                        return;
+                    }
+                    if(this.status===200){
+                        resolve(this.response);
+                    }
+                    else{
+                        reject(new Error(this.statusText));
+                    }
+                };
+            });
+            return promise;
+        };
+        // getJSON("https://api.sl56.com/api/ZN/GetFileList?path=").then(function(json){
+        //     console.log('Contents:'+ json);
+        // },function(error){
+        //     console.log('出错了',error);
+        // });
+        // var p1=new Promise(function(resolve,reject){
+        //     setTimeout(()=>reject(new Error("fail")),3000);
+        // });
+        // var p2=new Promise(function(resolve,reject){
+        //     setTimeout(()=>resolve(p1),1000);
+        // });
+        // p2.then(result=>console.log(result),err=>console.log(err));
+        // p2.catch(error=>console.log(error))
+
+        var promise=new Promise(function(resolve,reject){
+            // throw new Error('test');
+            //reject('test from reject');
+            // resolve("ok");
+            // throw new Error('test');
+            resolve(x+2);
+        })
+        promise.then(val=>console.log(val))
+        // .catch(function(error){
+        //     console.log(error);
+        // });
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
